@@ -1,0 +1,22 @@
+server:
+  port: 8022
+
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost
+          defaultBrokerPort: 9092
+          autoCreateTopics: false
+        bindings:
+          textTranslation-in-0:
+            consumer:
+              enable-dlq: true
+              dlq-name: json.cool_translator.file.translated.error
+      bindings:
+        textTranslation-in-0:
+          destination: json.cool_translator.file.extracted
+          group: translatorGroup
+        textTranslation-out-0:
+          destination: json.cool_translator.file.translated
